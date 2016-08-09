@@ -22,9 +22,9 @@ setupHelp(help);
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
-const baseUrlENtoEST = 'http://www.eki.ee/dict/ies/index.cgi?F=M&C06=en&C01=1&C02=1&C13=1&Q=';
 
-function fetchENtoEST(term, res){
+function fetchENtoEST(term, res) {
+	const baseUrlENtoEST = 'http://www.eki.ee/dict/ies/index.cgi?F=M&C06=en&C01=1&C02=1&C13=1&Q=';
 	const url = `${baseUrlENtoEST}${term}`;
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
@@ -32,7 +32,6 @@ function fetchENtoEST(term, res){
 	  }
 	});
 }
-
 
 function parseENtoEST(html, res, englTerm) {
 	let $ = cheerio.load(html);
@@ -52,9 +51,9 @@ function parseENtoEST(html, res, englTerm) {
 	});
 }
 
-const baseUrlCompleteEST = 'http://www.eki.ee/dict/qs/index.cgi?F=M&C02=1&Q=';
 
 function fetchCompleteEST(term, done) {
+	const baseUrlCompleteEST = 'http://www.eki.ee/dict/qs/index.cgi?F=M&C02=1&Q=';
 	const url = `${baseUrlCompleteEST}${term}`;
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
@@ -76,7 +75,7 @@ function setupHelp(help) {
 	request('http://www.eki.ee/dict/qs/muuttyybid.html', (error, response, body) => {
 		if (!error && response.statusCode == 200) {
 			const $ = cheerio.load(body);
-			const rows = $('table td > span[class=nr]').each( function(i, e) {
+			const rows = $('table td > span[class=nr]').each(function(i, e) {
 					const number = $(this).text().trim();
 					const row = $(this).parent().parent();
 					const base = row.find('td:nth-child(2)').text().trim();
