@@ -1,3 +1,5 @@
+'use strict';
+
 let express = require('express');
 let request = require('request');
 let cheerio = require('cheerio');
@@ -15,9 +17,8 @@ app.get('', function(req, res) {
 		res.send(basePage);
 });
 
-// const help = setupHelp();
-// });
-
+let help = {};
+setupHelp(help);
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
@@ -67,19 +68,30 @@ function fetchCompleteEST(term, done) {
 function parseCompleteEST(html) {
 	let $ = cheerio.load(html);
 	const t = $('.tervikart').first().find('.grg').text();
-	// console.log(t);
+	console.log(t);
 	return t;
 }
 
-// function setupHelp() {
-// 	request('http://www.eki.ee/dict/qs/muuttyybid.html', (error, response, body) => {
-// 		if (!error && response.statusCode == 200) {
-// 			let help = {};
-// 			const $ = cheerio.load(body);
-// 			for (let i = 0; i <= 38; i++) {
-// 				help[i] = 
-// 			}
+function setupHelp(help) {
+	request('http://www.eki.ee/dict/qs/muuttyybid.html', (error, response, body) => {
+		if (!error && response.statusCode == 200) {
+			const $ = cheerio.load(body);
+			const rows = $('table td > span[class=nr]').each( function(i, e) {
+					const number = $(this).text().trim();
+					const row = $(this).parent().parent();
+					const base = row.find('td:nth-child(2)').text().trim();
 
-// 		}
-// 	// http://www.eki.ee/dict/qs/muuttyybid.html#22
-// }
+					let result = { base: base };
+
+					const nextRow = row.next().text();
+					const marker = 'võrdlus:';
+					const indexOfMarker = nextRow.indexOf(marker);
+					if (indexOfMarker >= 0) {
+						const additional = nextRow.substring(indexOfMarker + marker.length).trim();
+						result.additional = additional;
+					}
+					help[number] = result;
+				});
+		}
+	});
+}
