@@ -45,7 +45,18 @@ function parseENtoEST(html, res, englTerm) {
 		let s = `${basePage}<h2>${englTerm}</h2>`;
 		for (let i = 0; i < result.length; i++) {
 			const o = result[i];
-			s += `<div><h4>${o.term}</h4>${o.infos}</div>`
+			const notes = o.notes;
+			const numbers = o.numbers;
+			let examples = '';
+			if (numbers) {
+				examples = numbers.map(x => {
+						if (x !== '') {
+							return help[x].base;
+						}
+					});
+			}
+
+			s += `<div><h4>${o.term}</h4>${notes}<br>${examples}</div>`
 		}
 		res.send(s);
 	});
@@ -58,7 +69,8 @@ function fetchCompleteEST(term, done) {
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    const infos = parseCompleteEST(body);
-	    const result = { infos: infos, term: term };
+	    console.log(infos);
+	    const result = { notes: infos.notes, numbers: infos.numbers, term: term };
 	    done(null, result);
 	  }
 	});
@@ -66,9 +78,9 @@ function fetchCompleteEST(term, done) {
 
 function parseCompleteEST(html) {
 	let $ = cheerio.load(html);
-	const t = $('.tervikart').first().find('.grg').text();
-	console.log(t);
-	return t;
+	const notes = $('.tervikart').first().find('.grg .mvq').text();
+	const numbers = $('.tervikart').first().find('.grg .mt a').text().split();
+	return { notes: notes, numbers: numbers };
 }
 
 function setupHelp(help) {
