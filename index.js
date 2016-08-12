@@ -9,7 +9,7 @@ const app = express();
 
 const basePage = "<h1>English -> Estonian</h1><form><input name='term'/><input type='submit' value='Search'></form>"
 
-app.get('', function(req, res) {
+app.get('eestikelt', function(req, res) {
 	const term = req.query.term;
 	if (typeof(term) !== 'undefined')
 		fetchENtoEST(term, res);
@@ -20,7 +20,7 @@ app.get('', function(req, res) {
 let help = {};
 setupHelp(help);
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+app.listen(8030, () => console.log('Example app listening on port 8030!'));
 
 
 function fetchENtoEST(term, res) {
