@@ -4,17 +4,19 @@ let express = require('express');
 let request = require('request');
 let cheerio = require('cheerio');
 let async = require('async');
+let cors = require('cors');
+
 
 const app = express();
 
-const basePage = "<h1>English -> Estonian</h1><form><input name='term'/><input type='submit' value='Search'></form>"
+app.use(cors());
 
-app.get('eestikelt', function(req, res) {
+app.get('/eestikelt', function(req, res) {
 	const term = req.query.term;
 	if (typeof(term) !== 'undefined')
-		fetchENtoEST(term, res);
+		getSuggestions(term, res);
 	else
-		res.send(basePage);
+		res.json({ error: 'fuck off' });
 });
 
 let help = {};
@@ -22,56 +24,92 @@ setupHelp(help);
 
 app.listen(8030, () => console.log('Example app listening on port 8030!'));
 
+function getSuggestions(term, res) {
+	const url = 'http://www.eki.ee/dict/shs_soovita.cgi?D=ies&F=M&term=' + term;
+	request(url, function(error, response, body) {
+		if (!error && response.statusCode == 200) {
+			let suggestions = JSON.parse(body).map(x => {
+        const start = x.indexOf('>') + 1;
+        const end = x.indexOf('</');
+        const s = x.substring(start, end);
+        return s;
+      });
 
-function fetchENtoEST(term, res) {
-	const baseUrlENtoEST = 'http://www.eki.ee/dict/ies/index.cgi?F=M&C06=en&C01=1&C02=1&C13=1&Q=';
-	const url = `${baseUrlENtoEST}${term}`;
-	request(url, function (error, response, body) {
-	  if (!error && response.statusCode == 200) {
-	    return parseENtoEST(body, res, term);
-	  }
+      if (suggestions.indexOf(term) === -1)
+      	suggestions = [term].concat(suggestions);
+
+      console.log('found suggestions');
+      console.log(suggestions);
+
+			async.map(suggestions, fetchENtoEST, function(error, result) {
+				if (!error) {
+					const filtered = result.filter(x => x.list.length > 0)
+					res.json(filtered);
+				} else {
+					res.status(500).send(error);
+				}
+			});
+		}
 	});
 }
 
-function parseENtoEST(html, res, englTerm) {
+function fetchENtoEST(englTerm, done) {
+	const url = 'http://www.eki.ee/dict/ies/index.cgi?F=M&C06=en&C01=1&C02=1&C13=1&Q=' + englTerm;
+	request(url, function (error, response, body) {
+	  if (!error && response.statusCode == 200) {
+			parseENtoEST(body, englTerm, done);
+		} else {
+			done(error);
+		}
+	});
+}
+
+function parseENtoEST(html, englTerm, done) {
 	let $ = cheerio.load(html);
 	let terms = []
 	$('.tervikart').first().find('.x').map((i, e) => {
-			const t = e.children[0].data;
+			const t = { estTerm: e.children[0].data, englTerm: englTerm };
 			terms.push(t);
 		})
 
-	async.map(terms, fetchCompleteEST, function(error, result) {
-		let s = `${basePage}<h2>${englTerm}</h2>`;
-		for (let i = 0; i < result.length; i++) {
-			const o = result[i];
-			const notes = o.notes;
-			const numbers = o.numbers;
-			let examples = '';
-			if (numbers) {
-				examples = numbers.map(x => {
-						if (x !== '') {
-							return help[x].base;
-						}
-					});
-			}
-
-			s += `<div><h4>${o.term}</h4>${notes}<br>${examples}</div>`
+	return async.map(terms, fetchCompleteEST, function(error, result) {
+		if (!error) {
+			// IDK if filtering is important.
+			// const filtered = result.filter(x => 'notes' in x || 'example' in x);
+			const filtered = result;
+			done(null, { englTerm: englTerm, list: filtered });
+		} else {
+			done(error);
 		}
-		res.send(s);
 	});
 }
 
 
 function fetchCompleteEST(term, done) {
-	const baseUrlCompleteEST = 'http://www.eki.ee/dict/qs/index.cgi?F=M&C02=1&Q=';
-	const url = `${baseUrlCompleteEST}${term}`;
+	const url = 'http://www.eki.ee/dict/qs/index.cgi?F=M&C02=1&Q=' + term.estTerm;
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    const infos = parseCompleteEST(body);
-	    console.log(infos);
-	    const result = { notes: infos.notes, numbers: infos.numbers, term: term };
+	    let result = { estTerm: term.estTerm };
+	    // let result = { estTerm: term.estTerm, englTerm: term.englTerm };
+
+	    if (infos.notes !== '') {
+	    	result.notes = infos.notes;
+	    }
+
+	    const numbers = infos.numbers;
+	    let example = '';
+	    if (numbers && numbers[0] !== '') {
+	    	example = numbers.map(x => {
+	    			if (x !== '' && x in help) {
+	    				return help[x].base;
+	    			}
+	    		});
+	    	result.example = example;
+	    }
 	    done(null, result);
+	  } else {
+	  	done(error);
 	  }
 	});
 }
