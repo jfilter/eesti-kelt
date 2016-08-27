@@ -25,7 +25,7 @@ setupHelp(help);
 app.listen(8030, () => console.log('Example app listening on port 8030!'));
 
 function getSuggestions(term, res) {
-	const url = 'http://www.eki.ee/dict/shs_soovita.cgi?D=ies&F=M&term=' + term;
+	const url = 'http://www.eki.ee/dict/shs_soovita.cgi?D=ies&F=M&term=' + encodeURI(term);
 	request(url, function(error, response, body) {
 		if (!error && response.statusCode == 200) {
 			let suggestions = JSON.parse(body).map(x => {
@@ -43,7 +43,9 @@ function getSuggestions(term, res) {
 
 			async.map(suggestions, fetchENtoEST, function(error, result) {
 				if (!error) {
-					const filtered = result.filter(x => x.list.length > 0)
+					const filtered = result.filter(x => x.list.length > 0);
+					console.log(filtered);
+
 					res.json(filtered);
 				} else {
 					res.status(500).send(error);
@@ -54,7 +56,8 @@ function getSuggestions(term, res) {
 }
 
 function fetchENtoEST(englTerm, done) {
-	const url = 'http://www.eki.ee/dict/ies/index.cgi?F=M&C06=en&C01=1&C02=1&C13=1&Q=' + englTerm;
+	const url = 'http://www.eki.ee/dict/ies/index.cgi?F=M&C06=en&C01=1&C02=1&C12=1&C13=1&Q=' + encodeURI(englTerm);
+	console.log(url);
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 			parseENtoEST(body, englTerm, done);
@@ -67,16 +70,21 @@ function fetchENtoEST(englTerm, done) {
 function parseENtoEST(html, englTerm, done) {
 	let $ = cheerio.load(html);
 	let terms = []
-	$('.tervikart').first().find('.x').map((i, e) => {
-			const t = { estTerm: e.children[0].data, englTerm: englTerm };
-			terms.push(t);
+	// check for the entries that are eqivalent to our term
+	// and then get all the possible words from there
+	$('span[lang=en]').each(function(i, e) {
+			if ($(this).text() == englTerm) {
+				console.log('found');
+				$(this).parent().find('.x').each((ii, ee) => terms.push({ estTerm: ee.children[0].data} ));
+			}
 		})
 
 	return async.map(terms, fetchCompleteEST, function(error, result) {
 		if (!error) {
 			// IDK if filtering is important.
-			// const filtered = result.filter(x => 'notes' in x || 'example' in x);
 			const filtered = result;
+			// const filtered = result.filter(x => x !== null);
+			// const filtered = result;
 			done(null, { englTerm: englTerm, list: filtered });
 		} else {
 			done(error);
@@ -84,28 +92,30 @@ function parseENtoEST(html, englTerm, done) {
 	});
 }
 
-
 function fetchCompleteEST(term, done) {
-	const url = 'http://www.eki.ee/dict/qs/index.cgi?F=M&C02=1&Q=' + term.estTerm;
+	const url = 'http://www.eki.ee/dict/qs/index.cgi?&F=M&C01=1&C02=1&Q=' + encodeURI(term.estTerm);
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    const infos = parseCompleteEST(body);
+	    // if (infos === null) {
+	    // 	done(null, null);
+	    // 	return;
+	    // }
 	    let result = { estTerm: term.estTerm };
-	    // let result = { estTerm: term.estTerm, englTerm: term.englTerm };
 
 	    if (infos.notes !== '') {
 	    	result.notes = infos.notes;
 	    }
 
 	    const numbers = infos.numbers;
-	    let example = '';
+	    let rule = '';
 	    if (numbers && numbers[0] !== '') {
-	    	example = numbers.map(x => {
+	    	rule = numbers.map(x => {
 	    			if (x !== '' && x in help) {
-	    				return help[x].base;
+	    				return x +': ' + help[x].base;
 	    			}
 	    		});
-	    	result.example = example;
+	    	result.rule = rule;
 	    }
 	    done(null, result);
 	  } else {
@@ -116,8 +126,18 @@ function fetchCompleteEST(term, done) {
 
 function parseCompleteEST(html) {
 	let $ = cheerio.load(html);
-	const notes = $('.tervikart').first().find('.grg .mvq').text();
-	const numbers = $('.tervikart').first().find('.grg .mt a').text().split();
+
+	const infText = $('.inf').first().text();
+
+	// if (infText === 'Päring ei andnud tulemusi!')
+		// return null;
+
+	const notes = $('.tervikart').last().find('.grg .mvq').text();
+	const numbers = $('.tervikart').last().find('.grg .mt a').text().split();
+	// const examples = $('.tervikart').last().find('.n').text();
+
+	// console.log(examples);
+
 	return { notes: notes, numbers: numbers };
 }
 
