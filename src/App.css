@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+}
+
+.EN {
+  background-color: whitesmoke;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  margin: 2em 0;
+}
+
+h2 {
+	margin-top: 0;
+}
+
+.App input {
+  width: 100%;
+  text-align: center;
+}
