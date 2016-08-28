@@ -6,7 +6,8 @@ body {
 
 a, a:hover, a:visited, a:active, a:focus {
 	color: #333;
-	text-decoration: underline;
+	background-color: whitesmoke;
+	/*text-decoration: underline;*/
 }
 
 #root {
