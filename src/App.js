@@ -13,7 +13,7 @@ class App extends Component {
       this.setState({ userInput: newUserInput, data: null, loading: false })
     } else {
       this.setState({ userInput: newUserInput, data: null, loading: true });
-      const url = 'http://localhost:8030/eestikelt?term=' + newUserInput;
+      const url = 'http://vis.one/eestikelt?term=' + newUserInput;
       $.getJSON(url)
         .done((response) => {
           // only update results, if the user hasn't changed in between
