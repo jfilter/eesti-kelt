@@ -14,7 +14,7 @@ app.use(cors());
 app.get('/eestikelt', function(req, res) {
 	const term = req.query.term;
 	if (typeof(term) !== 'undefined')
-		getSuggestions(term, res);
+		getSuggestions(term.toLowerCase(), res);
 	else
 		res.json({ error: 'fuck off' });
 });
