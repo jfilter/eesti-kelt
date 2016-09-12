@@ -16,5 +16,6 @@
   },
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
-  }
+  },
+"homepage": "http://vis.one/englishtoestonian"
 }
