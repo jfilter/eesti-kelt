@@ -38,13 +38,15 @@ function getSuggestions(term, res) {
       if (suggestions.indexOf(term) === -1)
       	suggestions = [term].concat(suggestions);
 
-      console.log('found suggestions');
-      console.log(suggestions);
+      // console.log('found suggestions');
+      // console.log(suggestions);
+
+      suggestions = suggestions.slice(0, 5);
 
 			async.map(suggestions, fetchENtoEST, function(error, result) {
 				if (!error) {
 					const filtered = result.filter(x => x.list.length > 0);
-					console.log(filtered);
+					// console.log(filtered);
 
 					res.json(filtered);
 				} else {
@@ -57,7 +59,7 @@ function getSuggestions(term, res) {
 
 function fetchENtoEST(englTerm, done) {
 	const url = 'http://www.eki.ee/dict/ies/index.cgi?F=M&C06=en&C01=1&C02=1&C12=1&C13=1&Q=' + encodeURI(englTerm);
-	console.log(url);
+	// console.log(url);
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 			parseENtoEST(body, englTerm, done);
@@ -74,7 +76,7 @@ function parseENtoEST(html, englTerm, done) {
 	// and then get all the possible words from there
 	$('span[lang=en]').each(function(i, e) {
 			if ($(this).text() == englTerm) {
-				console.log('found');
+				// console.log('found');
 				$(this).parent().find('.x').each((ii, ee) => terms.push({ estTerm: ee.children[0].data} ));
 			}
 		})
@@ -133,7 +135,15 @@ function parseCompleteEST(html) {
 		// return null;
 
 	const notes = $('.tervikart').last().find('.grg .mvq').text();
-	const numbers = $('.tervikart').last().find('.grg .mt a').text().split();
+	const numbersAsString = $('.tervikart').last().find('.grg .mt').text();
+	const re = /\d+[a-z]?/ig;
+
+	// console.log(numbersAsString)
+
+	const numbers = numbersAsString.match(re);
+
+	// console.log(numbers);
+
 	// const examples = $('.tervikart').last().find('.n').text();
 
 	// console.log(examples);
