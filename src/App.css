@@ -17,3 +17,7 @@ h2 {
   width: 100%;
   text-align: center;
 }
+
+.glyphicon {
+	padding-right: 0.3em;
+}

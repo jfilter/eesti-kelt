@@ -13,7 +13,8 @@ class App extends Component {
       this.setState({ userInput: newUserInput, data: null, loading: false })
     } else {
       this.setState({ userInput: newUserInput, data: null, loading: true });
-      const url = 'http://vis.one/eestikelt?term=' + newUserInput;
+      // const url = 'http://vis.one/eestikelt?term=' + newUserInput;
+      const url = 'http://localhost:8030/eestikelt?term=' + newUserInput;
       $.getJSON(url)
         .done((response) => {
           // only update results, if the user hasn't changed in between
@@ -59,7 +60,7 @@ class App extends Component {
         return (
             <div className="EN">
               <h2><u>{x.englTerm}</u></h2>
-              {x.list.map(y => {
+              {x.list.map((y, index) => {
                 let notes = null;
                 let rule = null;
 
@@ -71,17 +72,22 @@ class App extends Component {
                 }
 
                 if (y && y.rule) {
-                  rule =
-                    <div>
-                      <span className="glyphicon glyphicon glyphicon-list-alt"></span>
-                      <span>   </span>
-                      { y.rule }
-                    </div>
+                  console.log(y.rule);
+                  rule = y.rule.map(yy => {
+                      return <div>
+                        <span className="glyphicon glyphicon glyphicon-list-alt"></span>
+                        {yy}
+                      </div>
+                    })
                 }
 
+                let optionalText = '';
+                if (x.list.length > 1) {
+                  optionalText = index + 1 + '. ';
+                }
 
                 return (<div>
-                  <h3>{y.estTerm}</h3>
+                  <h3>{optionalText + y.estTerm}</h3>
                   { notes }
                   { rule }
                   </div>)

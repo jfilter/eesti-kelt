@@ -5,8 +5,10 @@ body {
 }
 
 a, a:hover, a:visited, a:active, a:focus {
-	color: #333;
-	background-color: whitesmoke;
+	/*color: #333;*/
+	color: black;
+	background-color: lightgrey;
+	/*background-color: whitesmoke;*/
 	/*text-decoration: underline;*/
 }
 
