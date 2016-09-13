@@ -114,7 +114,7 @@ function fetchCompleteEST(term, done) {
 	    if (numbers && numbers[0] !== '') {
 	    	rule = numbers.map(x => {
 	    			if (x !== '' && x in help) {
-	    				return x +': ' + help[x].base;
+	    				return { number: x, text: help[x].base };
 	    			}
 	    		});
 	    	result.rule = rule;
