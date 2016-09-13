@@ -13,8 +13,8 @@ class App extends Component {
       this.setState({ userInput: newUserInput, data: null, loading: false })
     } else {
       this.setState({ userInput: newUserInput, data: null, loading: true });
-      // const url = 'http://vis.one/eestikelt?term=' + newUserInput;
-      const url = 'http://localhost:8030/eestikelt?term=' + newUserInput;
+      const url = 'http://vis.one/eestikelt?term=' + newUserInput;
+      // const url = 'http://localhost:8030/eestikelt?term=' + newUserInput;
       $.getJSON(url)
         .done((response) => {
           // only update results, if the user hasn't changed in between
@@ -72,11 +72,15 @@ class App extends Component {
                 }
 
                 if (y && y.rule) {
-                  console.log(y.rule);
                   rule = y.rule.map(yy => {
+                    let pureNumber = yy.number;
+                    if (pureNumber.match(/[a-z]/i)) {
+                      pureNumber = pureNumber.slice(0, pureNumber.length -1);
+                    }
                       return <div>
                         <span className="glyphicon glyphicon glyphicon-list-alt"></span>
-                        {yy}
+                        <a href={"http://www.eki.ee/dict/qs/muuttyybid.html#" + pureNumber}>{yy.number}</a>
+                        {': ' + yy.text}
                       </div>
                     })
                 }
