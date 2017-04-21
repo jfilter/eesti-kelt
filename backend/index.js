@@ -28,6 +28,7 @@ function setupHelp(help) {
           const additional = nextRow.substring(indexOfMarker + marker.length).trim();
           result.additional = additional;
         }
+        // eslint-disable-next-line no-param-reassign
         help[number] = result;
       });
     }
@@ -38,6 +39,7 @@ function setupHelp(help) {
 const help = {};
 setupHelp(help);
 
+// Parse the HTML of the complete defition of the Estonian term
 function parseCompleteEST(html) {
   const $ = cheerio.load(html);
   const notes = $('.tervikart').last().find('.grg .mvq').text();
@@ -47,6 +49,7 @@ function parseCompleteEST(html) {
   return { notes, numbers };
 }
 
+// For the given Estonian term, get the complete defitions.
 function fetchCompleteEST(term, done) {
   const url = `http://www.eki.ee/dict/qs/index.cgi?&F=M&C01=1&C02=1&Q=${encodeURI(term.estTerm)}`;
   request(url, (error, response, body) => {
@@ -65,7 +68,7 @@ function fetchCompleteEST(term, done) {
           if (x !== '' && x in help) {
             return { number: x, text: help[x].base };
           }
-          // return undefined;
+          return undefined;
         });
         result.rule = rule;
       }
@@ -76,13 +79,15 @@ function fetchCompleteEST(term, done) {
   });
 }
 
+// After retrieving the body, parse for all the Estonian terms (to the orignal English term)
+// NB: For some English term, several Estonian terms exists
 function parseENtoEST(html, englTerm, done) {
   const $ = cheerio.load(html);
   const terms = [];
   // check for the entries that are eqivalent to our term
   // and then get all the possible words from there
   $('span[lang=en]').each((i, e) => {
-    if ($(e).text() == englTerm) {
+    if ($(e).text() === englTerm) {
       $(e).parent().find('.x').each((ii, ee) => terms.push({ estTerm: ee.children[0].data }));
     }
   });
@@ -100,6 +105,7 @@ function parseENtoEST(html, englTerm, done) {
   });
 }
 
+// Translate the English term to Estonian and proceed
 function fetchENtoEST(englTerm, done) {
   const url = `http://www.eki.ee/dict/ies/index.cgi?F=M&C06=en&C01=1&C02=1&C12=1&C13=1&Q=${encodeURI(englTerm)}`;
   request(url, (error, response, body) => {
@@ -111,6 +117,7 @@ function fetchENtoEST(englTerm, done) {
   });
 }
 
+// From the starting term, get 5 suggestions (similar words) and proeed
 function getSuggestions(term, res) {
   const url = `http://www.eki.ee/dict/shs_soovita.cgi?D=ies&F=M&term=${encodeURI(term)}`;
   request(url, (error, response, body) => {
