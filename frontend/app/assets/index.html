@@ -4,20 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>English to Estonian Dictionary</title>
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="app.css">
     <link href="https://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg">
     <meta name="theme-color" content="#ffffff">
   </head>
   <body>
@@ -45,7 +38,7 @@
 
               <p><span class="glyphicon glyphicon-info-sign"></span>: Additional information as provided by EKI</p>
               <p><span class="glyphicon glyphicon-list-alt"></span>: Grammitcal rules for all the other cases as provided by EKI. Check for their <a href="http://www.eki.ee/dict/qs/muuttyybid.html">comprehensive rulebook</a> (in Estonian) for mor informaiton.</p>
-              
+
             </div>
             <br>
             <div>Created by <a href="http://johannesfilter.com">Johannes Filter</a><div>
@@ -53,8 +46,9 @@
           </footer>
         </div>
       </div>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   </div>
+   <script src="vendor.js"></script>
+   <script src="app.js"></script>
+   <script>require('initialize');</script>
   </body>
 </html>

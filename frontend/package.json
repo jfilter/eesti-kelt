@@ -1,21 +1,32 @@
 {
-  "name": "eesti-kelt",
-  "version": "0.0.1",
+  "name": "brunch-app",
+  "description": "Brunch.io application",
   "private": true,
-  "devDependencies": {
-    "react-scripts": "0.2.1"
+  "author": "Brunch",
+  "version": "0.0.1",
+  "repository": "",
+  "scripts": {
+    "start": "LOGGY_STACKS=true brunch watch --server",
+    "build": "brunch build --production"
   },
   "dependencies": {
-    "react": "^15.2.1",
-    "react-dom": "^15.2.1"
+    "bootstrap": "^3",
+    "jquery": "^3",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "./node_modules/react-scripts/config/eslint.js"
-  },
-"homepage": "http://vis.one/englishtoestonian"
+  "devDependencies": {
+    "auto-reload-brunch": "^2",
+    "babel-brunch": "~6.0",
+    "babel-preset-latest": "^6",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6",
+    "brunch": "^2",
+    "eslint": "^3",
+    "eslint-config-airbnb-base": "^11",
+    "eslint-plugin-import": "^2",
+    "pleeease-brunch": "^3",
+    "uglify-js-brunch": "^2",
+    "sass-brunch": "^2"
+  }
 }
