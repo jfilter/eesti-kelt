@@ -8,7 +8,7 @@
     "build": "babel index.js --out-dir build"
   },
   "author": "Johannes Filter",
-  "license": "MIT",
+  "license": "GNU General Public License v3.0",
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/filter1/eesti-kelt.git"
