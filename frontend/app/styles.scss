@@ -1,9 +1,9 @@
 $space: 2rem;
 
 body {
+  font-family: 'Lato', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Lato', sans-serif;
 }
 
 h1 {
@@ -16,41 +16,42 @@ h1 {
 }
 
 hr {
-  margin-top: $space;
-  margin-bottom: $space;
+  margin: $space 0;
 }
 
 footer {
-  padding-bottom: $space;
-  padding-left: $space;
+  padding: 0 0 $space $space;
 }
 
-a, a:visited, a:active, a:focus {
+a,
+a:visited,
+a:active,
+a:focus {
   color: inherit;
   text-decoration: underline;
 
   &:hover {
     background-color: lighten(#777, 40%);
-    text-decoration: none;
     color: black;
+    text-decoration: none;
   }
 }
 
-.EN {
+.entry {
   background-color: whitesmoke;
-  padding: $space;
   margin: $space 0;
+  padding: $space;
 }
 
 h2 {
   margin-top: 0;
 }
 
-.App input {
-  width: 100%;
+.app input {
   padding-left: $space;
+  width: 100%;
 }
 
 .glyphicon {
-  padding-right: 0.3em;
+  padding-right: .3em;
 }

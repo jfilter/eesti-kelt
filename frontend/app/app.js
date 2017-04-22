@@ -40,14 +40,14 @@ class App extends Component {
     if (this.state.data === null) {
       if (this.state.loading) {
         return (
-            <div className="App">
+            <div className="app">
               {input}
               <div>Loading...</div>
             </div>
           );
       } else {
         return (
-            <div className="App">
+            <div className="app">
               {input}
             </div>
           );
@@ -55,7 +55,7 @@ class App extends Component {
     } else {
       const results = this.state.data.map(x => {
         return (
-            <div className="EN">
+            <div className="entry">
               <h2><u>{x.englTerm}</u></h2>
               {x.list.map((y, index) => {
                 let notes = null;
@@ -99,7 +99,7 @@ class App extends Component {
       });
 
       return (
-          <div className="App">
+          <div className="app">
             {input}
             {results}
           </div>
