@@ -23,10 +23,13 @@
     "babel-preset-stage-0": "^6",
     "brunch": "^2",
     "eslint": "^3",
+    "eslint-config-airbnb": "^14.1.0",
     "eslint-config-airbnb-base": "^11",
     "eslint-plugin-import": "^2",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
     "pleeease-brunch": "^3",
-    "uglify-js-brunch": "^2",
-    "sass-brunch": "^2"
+    "sass-brunch": "^2",
+    "uglify-js-brunch": "^2"
   }
 }
