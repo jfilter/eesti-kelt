@@ -1,16 +1,45 @@
+$space: 2rem;
+
 body {
+  margin: 0;
+  padding: 0;
   font-family: 'Lato', sans-serif;
 }
 
-.App {
-  text-align: center;
+h1 {
+  font-family: 'Vollkorn', serif;
+  padding-left: $space;
+}
+
+#root {
+  min-height: 300px;
+}
+
+hr {
+  margin-top: $space;
+  margin-bottom: $space;
+}
+
+footer {
+  padding-bottom: $space;
+  padding-left: $space;
+}
+
+a, a:visited, a:active, a:focus {
+  color: inherit;
+  text-decoration: underline;
+
+  &:hover {
+    background-color: lighten(#777, 40%);
+    text-decoration: none;
+    color: black;
+  }
 }
 
 .EN {
   background-color: whitesmoke;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  margin: 2em 0;
+  padding: $space;
+  margin: $space 0;
 }
 
 h2 {
@@ -19,38 +48,9 @@ h2 {
 
 .App input {
   width: 100%;
-  text-align: center;
+  padding-left: $space;
 }
 
 .glyphicon {
   padding-right: 0.3em;
-}
-
-
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Vollkorn', serif !important;
-}
-
-a, a:hover, a:visited, a:active, a:focus {
-  /*color: #333;*/
-  color: black;
-  background-color: lightgrey;
-  /*background-color: whitesmoke;*/
-  /*text-decoration: underline;*/
-}
-
-#root {
-  min-height: 300px;
-}
-
-hr {
-  margin-top: 2em;
-  margin-bottom: 2em;
-}
-
-footer {
-  padding-bottom: 1em;
 }

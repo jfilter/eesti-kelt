@@ -42,7 +42,6 @@ class App extends Component {
         return (
             <div className="App">
               {input}
-              <hr/>
               <div>Loading...</div>
             </div>
           );
@@ -50,7 +49,6 @@ class App extends Component {
         return (
             <div className="App">
               {input}
-              <hr/>
             </div>
           );
       }
@@ -103,7 +101,6 @@ class App extends Component {
       return (
           <div className="App">
             {input}
-            <hr/>
             {results}
           </div>
         );
