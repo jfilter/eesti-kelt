@@ -52,7 +52,7 @@ class App extends Component {
       );
     } else {
       const results = this.state.data.map((x) => {
-        return (<Entry details={x.list} englTerm={x.englTerm} />);
+        return (<Entry details={x.list} englTerm={x.englTerm} key={x.englTerm} />);
       });
 
       return (
