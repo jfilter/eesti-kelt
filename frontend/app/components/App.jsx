@@ -5,20 +5,22 @@ class App extends Component {
   constructor() {
     super();
     this.state = { userInput: null, data: null };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this);
   }
 
-  handleChange(event) {
+  handleUserInput(event) {
     const newUserInput = event.target.value;
     if (newUserInput === '') {
+      // reset state
       this.setState({ userInput: newUserInput, data: null, loading: false });
     } else {
+      // set to loading
       this.setState({ userInput: newUserInput, data: null, loading: true });
       const url = `https://one.vis.one/eestikelt?term=${newUserInput}`;
       // const url = 'http://localhost:8030/eestikelt?term=' + newUserInput;
       $.getJSON(url)
         .done((response) => {
-          // only update results, if the user hasn't changed in between
+          // only update results if the user hasn't anyhing changed in between
           if (this.state.userInput === newUserInput) {
             this.setState({ data: response });
           }
@@ -34,7 +36,7 @@ class App extends Component {
         placeholder="search for e.g.: car, woman or man"
         type="text"
         value={this.state.value}
-        onChange={this.handleChange}
+        onChange={this.handleUserInput}
       />
     );
 
