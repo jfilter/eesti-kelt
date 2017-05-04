@@ -33,7 +33,7 @@ class App extends Component {
     const input = (
       <input
         autoFocus
-        placeholder="search for e.g.: car, woman or man"
+        placeholder="search for e.g. car, woman or man"
         type="text"
         value={this.state.value}
         onChange={this.handleUserInput}
