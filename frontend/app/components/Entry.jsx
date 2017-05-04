@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Notes from './Notes';
+import Rule from './Rule';
 
 const Entry = ({ englTerm, estonianTermsAsList }) => {
   return (
@@ -19,25 +20,9 @@ const Entry = ({ englTerm, estonianTermsAsList }) => {
 
         let rules = null;
         if (estonianTerm.rule) {
-          rules = estonianTerm.rule.map((rule) => {
-            let cleanedNumber = rule.number;
-            // Sometimes, it's necessary to remove other characters.
-            if (cleanedNumber.match(/[a-z]/i)) {
-              cleanedNumber = cleanedNumber.slice(0, cleanedNumber.length - 1);
-            }
-            return (
-              <div key={rule.number} className="row">
-                <div className="col-xs-3">
-                  <span className="glyphicon glyphicon glyphicon-list-alt" />
-                  <a target="_blank" rel="noreferrer noopener" href={`http://www.eki.ee/dict/qs/muuttyybid.html#${cleanedNumber}`}>
-                    <em>Rule {rule.number}:</em>
-                  </a>
-                </div>
-                <div className="col-xs-9">
-                  {rule.text}`
-                </div>
-              </div>);
-          });
+          rules = estonianTerm.rule.map(rule => (
+            <Rule number={rule.number} text={rule.text} key={rule.number} />
+          ));
         }
 
         // Only show ordinals when there are more then one item.
