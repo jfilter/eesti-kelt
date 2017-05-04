@@ -20,6 +20,12 @@ exports.plugins = {
   },
 };
 
+exports.modules = {
+  autoRequire: {
+    'app.js': ['initialize'],
+  },
+};
+
 exports.npm = {
   globals: {
     jQuery: 'jquery',
