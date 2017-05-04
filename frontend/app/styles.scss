@@ -27,7 +27,11 @@ hr {
 }
 
 footer {
-  padding: 0 0 $space $space;
+  padding-bottom: $space;
+
+  > div {
+    padding: 0 0 0 $space;
+  }
 }
 
 a,
@@ -44,7 +48,7 @@ a:focus {
   }
 }
 
-.entry {
+.entry, .about {
   background-color: whitesmoke;
   margin: $space 0;
   padding: $space;

@@ -21,7 +21,8 @@ const Entry = ({ englTerm, estonianTermsAsList }) => {
               <div className="col-xs-9">
                 { estonianTerm.notes }
               </div>
-            </div>);
+            </div>
+          );
         }
 
         let rules = null;

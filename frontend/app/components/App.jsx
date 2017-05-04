@@ -28,41 +28,46 @@ class App extends Component {
   }
 
   render() {
-    const input =
-      (<input
+    const input = (
+      <input
         autoFocus
-        placeholder="car, woman or man"
+        placeholder="search for e.g.: car, woman or man"
         type="text"
         value={this.state.value}
         onChange={this.handleChange}
-      />);
+      />
+    );
 
     if (this.state.data === null) {
       if (this.state.loading) {
         return (
-            (<div className="app">
-              {input}
-              <div className="loading">Loading...</div>
-            </div>
-          ));
+          <div className="app">
+            {input}
+            <div className="loading">Loading...</div>
+          </div>
+        );
       }
       return (
         <div className="app">
           {input}
         </div>
       );
-    } else {
-      const results = this.state.data.map((x) => {
-        return (<Entry englTerm={x.englTerm} estonianTermsAsList={x.list} key={x.englTerm} />);
-      });
-
-      return (
-        <div className="app">
-          {input}
-          {results}
-        </div>
-      );
     }
+
+    const results = this.state.data.map(x => (
+      <Entry
+        englTerm={x.englTerm}
+        estonianTermsAsList={x.list}
+        key={x.englTerm}
+      />
+    ));
+
+    return (
+      <div className="app">
+        {input}
+        {results}
+      </div>
+    );
   }
 }
 
