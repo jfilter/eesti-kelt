@@ -5,6 +5,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = { userInput: null, data: null };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
@@ -30,10 +31,10 @@ class App extends Component {
     const input =
       (<input
         autoFocus
-        placeholder=""
+        placeholder="car, woman or man"
         type="text"
         value={this.state.value}
-        onChange={this.handleChange.bind(this)}
+        onChange={this.handleChange}
       />);
 
     if (this.state.data === null) {
@@ -41,7 +42,7 @@ class App extends Component {
         return (
             (<div className="app">
               {input}
-              <div>Loading...</div>
+              <div className="loading">Loading...</div>
             </div>
           ));
       }
@@ -52,7 +53,7 @@ class App extends Component {
       );
     } else {
       const results = this.state.data.map((x) => {
-        return (<Entry englTerm={x.englTerm} estonianTermsAsList={x.list}  key={x.englTerm} />);
+        return (<Entry englTerm={x.englTerm} estonianTermsAsList={x.list} key={x.englTerm} />);
       });
 
       return (

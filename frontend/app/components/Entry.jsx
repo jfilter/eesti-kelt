@@ -58,7 +58,7 @@ const Entry = ({ englTerm, estonianTermsAsList }) => {
             <h4>
               {ordinalNumber + estonianTerm.estTerm}
             </h4>
-              { notes }
+            { notes }
             <div>
               { rules }
             </div>
