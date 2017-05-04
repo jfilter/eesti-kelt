@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Notes from './Notes';
+
 const Entry = ({ englTerm, estonianTermsAsList }) => {
   return (
     <div className="entry">
@@ -10,19 +12,9 @@ const Entry = ({ englTerm, estonianTermsAsList }) => {
         </span>
       </h2>
       {estonianTermsAsList.map((estonianTerm, index) => {
-        let notes = null;
+        let notes;
         if (estonianTerm.notes) {
-          notes = (
-            <div className="row">
-              <div className="col-xs-3">
-                <span className="glyphicon glyphicon-info-sign" />
-                <em>Notes:</em>
-              </div>
-              <div className="col-xs-9">
-                { estonianTerm.notes }
-              </div>
-            </div>
-          );
+          notes = <Notes notes={estonianTerm.notes} />;
         }
 
         let rules = null;
