@@ -40,10 +40,19 @@ const help = {};
 setupHelp(help);
 
 // Parse the HTML of the complete defition of the Estonian term
-function parseCompleteEST(html) {
+function parseCompleteEST(html, estTerm) {
   const $ = cheerio.load(html);
-  const notes = $('.tervikart').last().find('.grg .mvq').text();
-  const numbersAsString = $('.tervikart').last().find('.grg .mt').text();
+
+  // Some special treatment because when looking for 'car' => 'auto',
+  // there was some problem when choosing the last of $('.tervikart').
+  // Thus, we filter out rubish terms that are the same as the terms,
+  // but have a '+' in the end.
+  const tervikart = $('.tervikart').filter((i, x) => {
+    return !$(x).text().trim().startsWith(`${estTerm}+`);
+  });
+
+  const notes = tervikart.last().find('.grg .mvq').text();
+  const numbersAsString = tervikart.last().find('.grg .mt').text();
   const re = /\d+[a-z]?/ig;
   const numbers = numbersAsString.match(re);
   return { notes, numbers };
@@ -54,7 +63,7 @@ function fetchCompleteEST(term, done) {
   const url = `http://www.eki.ee/dict/qs/index.cgi?&F=M&C01=1&C02=1&Q=${encodeURI(term.estTerm)}`;
   request(url, (error, response, body) => {
     if (!error && response.statusCode === 200) {
-      const infos = parseCompleteEST(body);
+      const infos = parseCompleteEST(body, term.estTerm);
       const result = { estTerm: term.estTerm };
 
       if (infos.notes !== '') {
