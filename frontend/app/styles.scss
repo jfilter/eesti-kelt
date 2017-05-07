@@ -5,6 +5,7 @@ body {
   font-family: 'Lato', sans-serif;
   margin: 0;
   padding: 0;
+  line-height: 1.5;
 }
 
 h1 {
@@ -52,6 +53,10 @@ a:focus {
   background-color: whitesmoke;
   margin: $space 0;
   padding: $space;
+}
+
+.about h3 {
+  margin-top: 0;
 }
 
 .loading {
