@@ -6,11 +6,12 @@
   "version": "0.0.1",
   "repository": "",
   "scripts": {
-    "start": "LOGGY_STACKS=true brunch watch --server",
-    "build": "brunch build --production"
+    "start": "SERVER_ADDRESS='http://localhost:8030' LOGGY_STACKS=true brunch watch --server",
+    "build": "SERVER_ADDRESS='https://one.vis.one' brunch build --production"
   },
   "dependencies": {
     "bootstrap": "^3",
+    "jsenv-brunch": "^2.0.0",
     "jquery": "^3",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",

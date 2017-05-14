@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Entry from './Entry';
 
+import { SERVER_ADDRESS } from '../../config.jsenv';
+
 class App extends Component {
   constructor() {
     super();
@@ -16,8 +18,8 @@ class App extends Component {
     } else {
       // set to loading
       this.setState({ userInput: newUserInput, data: null, loading: true });
-      const url = `https://one.vis.one/eestikelt?term=${newUserInput}`;
-      // const url = 'http://localhost:8030/eestikelt?term=' + newUserInput;
+      const url = `${SERVER_ADDRESS}/eestikelt?term=${newUserInput}`;
+
       $.getJSON(url)
         .done((response) => {
           // only update results if the user hasn't anyhing changed in between

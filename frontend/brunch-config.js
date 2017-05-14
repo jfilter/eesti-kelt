@@ -1,7 +1,7 @@
 exports.files = {
   javascripts: {
     joinTo: {
-      'js/app.js': /^app/,
+      'js/app.js': /^(app|config)/,
       'js/vendor.js': /^node_modules/,
     },
   },
