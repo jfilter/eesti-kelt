@@ -16,14 +16,14 @@ I am grateful for any contribution, feedback or bug report.
 
 ## Run
 
-* install [Node](https://nodejs.org/en/)
+* install [node](https://nodejs.org/en/)
 
 ### Frontend
 
-* install the building tool [Brunch](http://brunch.io)
+* install the building tool [brunch](http://brunch.io): `npm install -g brunch`
 * `cd frontend`
 * `npm install`
-* `npm start` to compile and start a development server
+* `npm start` to compile the code and start a development server
 * before going in production, change the server address in the `scripts` section in the `package.json`
 
 ### Backend
@@ -31,7 +31,7 @@ I am grateful for any contribution, feedback or bug report.
 * `cd backend`
 * `npm install`
 * `npm start` to run a start a development server
-* you may have to check change the port in the `index.js`
+* you may have to change the port in the `index.js`
 
 ### Deployment
 
