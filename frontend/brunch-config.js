@@ -22,7 +22,7 @@ exports.plugins = {
 
 exports.modules = {
   autoRequire: {
-    'app.js': ['initialize'],
+    'js/app.js': ['initialize'],
   },
 };
 
