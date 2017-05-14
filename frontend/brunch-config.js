@@ -1,11 +1,11 @@
 exports.files = {
   javascripts: {
     joinTo: {
-      'app.js': /^app/,
-      'vendor.js': /^node_modules/,
+      'js/app.js': /^app/,
+      'js/vendor.js': /^node_modules/,
     },
   },
-  stylesheets: { joinTo: 'app.css' },
+  stylesheets: { joinTo: 'css/app.css' },
 };
 
 exports.plugins = {
