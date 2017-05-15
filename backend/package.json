@@ -1,17 +1,18 @@
 {
-  "name": "eesti-kelt-backend",
-  "version": "1.0.0",
-  "description": "The backend for vis.one/englishtoestonian",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon index.js --exec babel-node --presets es2015,stage-2",
-    "build": "babel index.js --out-dir build"
-  },
+  "name": "Eesti-Kelt-Backend",
+  "version": "0.1.0",
+  "description": "Backend for English to Estonian Dictionary",
+  "private": true,
   "author": "Johannes Filter",
   "license": "GNU General Public License v3.0",
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/filter1/eesti-kelt.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js --exec babel-node --presets es2015,stage-2",
+    "build": "babel index.js --out-dir build"
   },
   "dependencies": {
     "async": "^2.0.1",
