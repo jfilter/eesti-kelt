@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "SERVER_ADDRESS='http://localhost:8030' LOGGY_STACKS=true brunch watch --server",
-    "build": "SERVER_ADDRESS='https://one.vis.one' brunch build --production"
+    "build": "SERVER_ADDRESS='https://eesti-kelt.app.vis.one' brunch build --production"
   },
   "dependencies": {
     "bootstrap": "^3",

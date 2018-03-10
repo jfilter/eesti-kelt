@@ -158,7 +158,7 @@ function getSuggestions(term, res) {
 const app = express();
 app.use(cors());
 
-app.get('/eestikelt', (req, res) => {
+app.get('/', (req, res) => {
   const term = req.query.term;
   if (typeof term !== 'undefined') {
     getSuggestions(term.toLowerCase(), res);
@@ -167,4 +167,4 @@ app.get('/eestikelt', (req, res) => {
   }
 });
 
-app.listen(8030, () => console.log('Example app listening on port 8030!'));
+app.listen(5000, () => console.log('Example app listening on port 5000!'));

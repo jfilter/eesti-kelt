@@ -18,7 +18,7 @@ class App extends Component {
     } else {
       // set to loading
       this.setState({ userInput: newUserInput, data: null, loading: true });
-      const url = `${SERVER_ADDRESS}/eestikelt?term=${newUserInput}`;
+      const url = `${SERVER_ADDRESS}/?term=${newUserInput}`;
 
       $.getJSON(url)
         .done((response) => {
