@@ -69,3 +69,7 @@ then
   ssh $BACKEND_URL "cd $BACKEND_FOLDER && npm install --verbose && pm2 restart all"
 fi
 ```
+
+## License
+
+GPL.
